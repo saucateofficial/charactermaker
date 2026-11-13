@@ -23,3 +23,126 @@ h2{font-weight:600;font-size:26px;text-align:center;margin:30px 0 18px}
 .row{display:flex;gap:14px;overflow-x:auto;padding:8px 2px 18px;justify-content:center;flex-wrap:wrap}
 .card{width:150px;height:200px;border-radius:14px;border:1px solid var(--ln);background:var(--cd) center/cover;position:relative;overflow:hidden;cursor:pointer;display:flex;align-items:flex-end}
 .card:hover{border-color:var(--rd);box-shadow:0 0 24px #c1121f55}
+.card i{position:absolute;inset:0;display:grid;place-items:center;font-size:54px;font-style:normal;color:#ffffff30}
+.card span{position:relative;width:100%;padding:24px 8px 8px;background:linear-gradient(transparent,#000c);text-align:center;font-size:13px;font-weight:600}
+.card.n{align-items:center;justify-content:center;border-style:dashed;font-size:14px}
+.tabs{display:flex;gap:8px;overflow-x:auto;margin:10px 0 20px;border-bottom:1px solid var(--ln);padding-bottom:10px}
+.tabs button{background:none;border:0;color:var(--mu);font:inherit;padding:4px 10px;cursor:pointer;white-space:nowrap}
+.tabs .on{color:var(--tx);border-bottom:1px solid var(--tx)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:620px){.grid{grid-template-columns:1fr}}
+label{display:block;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--mu);margin-bottom:4px}
+input,textarea,select{width:100%;background:#0009;color:var(--tx);border:1px solid var(--ln);border-radius:10px;padding:10px 12px;font:inherit}
+input:focus,textarea:focus,select:focus{outline:1px solid var(--rd)}
+textarea{min-height:90px;resize:vertical}
+.full{grid-column:1/-1}
+.ph{display:flex;gap:16px;align-items:center;margin-bottom:18px;flex-wrap:wrap}
+.ph .card{cursor:default;width:110px;height:140px}
+.box{border:1px solid var(--ln);background:var(--cd);border-radius:12px;padding:14px;margin:10px 0}
+.box b{font-weight:600}
+.box p{margin:6px 0;white-space:pre-wrap}
+.acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+pre{white-space:pre-wrap;font:inherit;background:#0008;border:1px solid var(--ln);border-radius:12px;padding:16px;min-height:120px}
+.tr{display:flex;flex-direction:column;gap:22px;align-items:center;margin-top:10px}
+.gen{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.node{border:1px solid var(--ln);border-radius:10px;padding:8px 14px;background:var(--cd);text-align:center;min-width:110px}
+.node.me{border-color:var(--rd);box-shadow:0 0 18px #c1121f66}
+.node small{display:block;color:var(--mu);font-size:11px}
+.chip{border:1px solid var(--ln);border-radius:99px;padding:5px 14px;cursor:pointer;display:inline-block;margin:3px 4px 3px 0;font-size:14px}.chip.on{background:var(--rd);border-color:var(--rd)}
+.lab{font-size:11px;letter-spacing:3px;color:var(--mu)}
+</style></head>
+<body><nav><b class="lg">CF</b><span class="sp"></span><button class="pill" data-a="lang"></button></nav><main id="app"></main>
+<script>
+const $=s=>document.querySelector(s);
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let S={lang:'tr',chars:[],cur:null,tab:'profile'};
+try{Object.assign(S,JSON.parse(localStorage.getItem('cf')||'{}'))}catch(e){}
+const save=()=>{try{localStorage.setItem('cf',JSON.stringify(S))}catch(e){}};
+const D={
+tr:{title:'KARAKTER ATÖLYESİ',story:'Rastgele hikâye',genre:'Tür',tone:'Ton',spot:'Mekân',conflict:'Ana çatışma',length:'Uzunluk',makeStory:'Hikâye oluştur',useChars:'Hikâyeye katılacak karakterler',rndNote:'Boş bıraktığınız alanları ve seçmediğiniz kategorileri yapay zekâ rastgele doldurur.',slang:'Hikâyenin dili',era:'Dönem',theme:'Ana tema',pov:'Anlatıcı bakış açısı',ending:'Hikâyenin sonu',mt:'İstenen kişilik özellikleri (birden fazla seç)',mr:'İlişki dinamikleri (birden fazla seç)',sChar:'ANA KARAKTER',sRel:'İLİŞKİLER VE DİĞER KARAKTERLER',sWorld:'DÜNYA VE OLAY ÖRGÜSÜ',sStyle:'ANLATIM VE DİL',sub:'Kurgunuz için derinlikli, tutarlı karakterler yaratın.',now:'YAPAY ZEKÂ DESTEKLİ',new:'+ Yeni karakter',chars:'Karakterlerim',back:'← Karakterler',profile:'Profil',work:'İş',rels:'İlişkiler',tree:'Soyağacı',bio:'Biyografi',first:'Ad',last:'Soyad',age:'Yaş',gender:'Cinsiyet',role:'Meslek / rol',setting:'Dünya · dönem · kültür',traits:'Kişilik özellikleri',past:'Geçmiş (kilit olaylar)',goals:'Hedefler ve arzular',fears:'Korkular ve zayıflıklar',extra:'Diğer notlar',aiName:'AI ile isim üret',photo:'Fotoğraf seç',place:'Çalıştığı yer',pos:'Pozisyon',years:'Yıllar',add:'Ekle',del:'Sil',relName:'Eklenecek karakterin adı',relType:'İlişki türü',relNote:'Kısa not (isteğe bağlı)',weave:'Hayatına kat (AI)',gen:'Biyografi oluştur',regen:'Yeniden oluştur',aiTree:'AI ile akraba öner',empty:'Henüz karakter yok.',err:'AI şu an yanıt veremedi, tekrar deneyin.',noname:'İsimsiz',treeEmpty:'Önce İlişkiler sekmesinden akraba ekleyin.',you:'Karakter',circle:'ÇEVRE',lang:'Türkçe yaz',delc:'Karakteri sil',sure:'Silinsin mi?',nowork:'Henüz iş eklenmedi.',norel:'Henüz ilişki yok.',
+types:{grandparent:'Büyükanne/baba',parent:'Ebeveyn',sibling:'Kardeş',spouse:'Eş / sevgili',child:'Çocuk',grandchild:'Torun',friend:'Arkadaş',rival:'Rakip',other:'Diğer'}},
+en:{title:'CHARACTER FORGE',story:'Random story',genre:'Genre',tone:'Tone',spot:'Setting',conflict:'Main conflict',length:'Length',makeStory:'Generate story',useChars:'Characters in the story',rndNote:'Empty fields and unselected categories are filled in at random by the AI.',slang:'Story language',era:'Era',theme:'Main theme',pov:'Narrative point of view',ending:'Ending',mt:'Desired personality traits (pick several)',mr:'Relationship dynamics (pick several)',sChar:'MAIN CHARACTER',sRel:'RELATIONSHIPS AND OTHER CHARACTERS',sWorld:'WORLD AND PLOT',sStyle:'STYLE AND LANGUAGE',sub:'Build deep, consistent characters for your fiction.',now:'AI POWERED',new:'+ New character',chars:'My characters',back:'← Characters',profile:'Profile',work:'Work',rels:'Relations',tree:'Family tree',bio:'Biography',first:'First name',last:'Last name',age:'Age',gender:'Gender',role:'Occupation / role',setting:'World · era · culture',traits:'Personality traits',past:'Past (key events)',goals:'Goals and desires',fears:'Fears and flaws',extra:'Other notes',aiName:'Generate name with AI',photo:'Choose photo',place:'Workplace',pos:'Position',years:'Years',add:'Add',del:'Delete',relName:'Name of character to add',relType:'Relationship type',relNote:'Short note (optional)',weave:'Weave into life (AI)',gen:'Generate biography',regen:'Regenerate',aiTree:'Suggest relatives with AI',empty:'No characters yet.',err:'AI could not respond right now, please retry.',noname:'Unnamed',treeEmpty:'Add relatives in the Relations tab first.',you:'Character',circle:'CIRCLE',lang:'Write in English',delc:'Delete character',sure:'Delete this character?',nowork:'No workplaces yet.',norel:'No relations yet.',
+types:{grandparent:'Grandparent',parent:'Parent',sibling:'Sibling',spouse:'Spouse / partner',child:'Child',grandchild:'Grandchild',friend:'Friend',rival:'Rival',other:'Other'}}};
+const t=k=>D[S.lang][k];
+const ST={genre:[['Fantastik','Fantasy'],['Bilim kurgu','Science fiction'],['Korku','Horror'],['Romantik','Romance'],['Gizem','Mystery'],['Tarihî','Historical'],['Distopya','Dystopia'],['Macera','Adventure']],
+tone:[['Karanlık','Dark'],['Umutlu','Hopeful'],['Mizahi','Humorous'],['Hüzünlü','Melancholic'],['Destansı','Epic']],
+spot:[['Ortaçağ krallığı','Medieval kingdom'],['Fütüristik şehir','Futuristic city'],['Küçük köy','Small village'],['Gemi','Ship at sea'],['Orman','Forest'],['Çöl','Desert'],['Terk edilmiş kale','Abandoned castle']],
+conflict:[['İhanet','Betrayal'],['İntikam','Revenge'],['Kayıp aşk','Lost love'],['Savaş','War'],['Lanet','Curse'],['Sır','Dark secret'],['Hayatta kalma','Survival']],
+length:[['Kısa (~300 kelime)','Short (~300 words)'],['Orta (~600)','Medium (~600)'],['Uzun (~1000)','Long (~1000)']],
+slang:[['Türkçe','Turkish'],['İngilizce','English'],['Almanca','German'],['İspanyolca','Spanish'],['Fransızca','French'],['Rusça','Russian']],
+era:[['Antik çağ','Ancient era'],['Ortaçağ','Medieval'],['Rönesans','Renaissance'],['19. yüzyıl','19th century'],['Günümüz','Present day'],['Yakın gelecek','Near future'],['Uzak gelecek','Far future']],
+theme:[['Aşk','Love'],['Aile','Family'],['Özgürlük','Freedom'],['İktidar','Power'],['Yas','Grief'],['Kimlik','Identity'],['Adalet','Justice'],['Kurtuluş','Redemption']],
+pov:[['Birinci şahıs','First person'],['Üçüncü şahıs','Third person'],['Çoklu bakış','Multiple viewpoints']],
+ending:[['Mutlu','Happy'],['Trajik','Tragic'],['Açık uçlu','Open-ended'],['Sürpriz son','Twist ending']],
+mt:[['Cesur','Brave'],['Kurnaz','Cunning'],['Utangaç','Shy'],['Merhametli','Compassionate'],['Hırslı','Ambitious'],['Asi','Rebellious'],['Sadık','Loyal'],['Gizemli','Mysterious'],['Kibirli','Arrogant'],['Neşeli','Cheerful'],['Yalnız','Lonely'],['Takıntılı','Obsessive'],['Bilge','Wise'],['Saf','Naive'],['Acımasız','Ruthless']],
+mr:[['Aşk üçgeni','Love triangle'],['Usta-çırak','Mentor and apprentice'],['Kardeş rekabeti','Sibling rivalry'],['Dosttan düşmana','Friend turned enemy'],['Yasak ilişki','Forbidden bond'],['Aile sırrı','Family secret'],['Yalnız kurt','Lone wolf']]};
+const MULTI=['mt','mr'];
+const FL=[['first'],['last'],['age'],['gender'],['role'],['setting'],['traits',1],['past',1],['goals',1],['fears',1],['extra',1]];
+const GEN={grandparent:-2,parent:-1,sibling:0,spouse:0,child:1,grandchild:2};
+const cur=()=>S.chars.find(c=>c.id===S.cur);
+const nm=c=>((c.first||'')+' '+(c.last||'')).trim()||t('noname');
+const ctx=c=>FL.map(([k])=>c[k]?t(k)+': '+c[k]:'').filter(Boolean).join('\n')+'\nName: '+nm(c)
+ +'\nWorkplaces: '+c.works.map(w=>[w.place,w.pos,w.years].filter(Boolean).join(', ')).join(' | ')
+ +'\nRelations: '+c.rels.map(r=>r.name+' ('+D.en.types[r.type]+')'+(r.note?': '+r.note:'')+(r.story?' — '+r.story:'')).join(' | ');
+const LN=()=>S.lang=='tr'?'Turkish':'English';
+async function ai(p,cb){const s=await claude.use('sample');if(!s)throw 0;return(await s(p,{onText:cb,cache:false})).text}
+async function run(b,fn){const o=b.textContent;b.disabled=true;b.textContent='…';try{await fn()}catch(e){alert(t('err'))}b.disabled=false;b.textContent=o}
+function pic(f,cb){const r=new FileReader();r.onload=()=>{const i=new Image();i.onload=()=>{const k=Math.min(1,320/Math.max(i.width,i.height)),v=document.createElement('canvas');v.width=i.width*k;v.height=i.height*k;v.getContext('2d').drawImage(i,0,0,v.width,v.height);cb(v.toDataURL('image/jpeg',.75))};i.src=r.result};r.readAsDataURL(f)}
+const face=c=>`<div class="card" ${c.photo?`style="background-image:url(${c.photo})"`:''}>${c.photo?'':`<i>${esc((c.first||'?')[0])}</i>`}</div>`;
+function home(){return `<div class="hero"><small>${t('now')}</small><h1>${t('title')}</h1><p class="mu">${t('sub')}</p><button class="pill w" data-a="newc">${t('new')}</button> <button class="pill" data-a="story">${t('story')}</button></div><h2>${t('chars')}</h2><div class="row">${S.chars.map(c=>`<div class="card" data-a="open" data-i="${c.id}" ${c.photo?`style="background-image:url(${c.photo})"`:''}>${c.photo?'':`<i>${esc((c.first||'?')[0])}</i>`}<span>${esc(nm(c))}<br><small class="mu">${esc(c.role||'')}</small></span></div>`).join('')}<div class="card n" data-a="newc">${t('new')}</div></div>`}
+function tabBody(c){
+ const T=S.tab;
+ if(T=='profile')return `<div class="ph">${face(c)}<div><input type="file" id="pf" accept="image/*" hidden><button class="pill" data-a="photo">${t('photo')}</button> <button class="pill" data-a="aiName">${t('aiName')}</button></div></div><div class="grid">${FL.map(([k,a])=>`<div class="${a?'full':''}"><label>${t(k)}</label>${a?`<textarea data-f="${k}">${esc(c[k])}</textarea>`:`<input data-f="${k}" value="${esc(c[k])}">`}</div>`).join('')}</div><div class="acts"><button class="pill" data-a="delc">${t('delc')}</button></div>`;
+ if(T=='work')return (c.works.map((w,i)=>`<div class="box"><b>${esc(w.place)}</b> · ${esc(w.pos)} <span class="mu">${esc(w.years)}</span><div class="acts"><button class="pill" data-a="delw" data-i="${i}">${t('del')}</button></div></div>`).join('')||`<p class="mu">${t('nowork')}</p>`)+`<div class="grid"><div><label>${t('place')}</label><input id="w1"></div><div><label>${t('pos')}</label><input id="w2"></div><div><label>${t('years')}</label><input id="w3"></div></div><div class="acts"><button class="pill w" data-a="addw">${t('add')}</button></div>`;
+ if(T=='rels')return (c.rels.map((r,i)=>`<div class="box"><b>${esc(r.name)}</b> · <span class="mu">${t('types')[r.type]}</span>${r.note?`<p class="mu">${esc(r.note)}</p>`:''}${r.story?`<p>${esc(r.story)}</p>`:''}<div class="acts">${r.story?'':`<button class="pill" data-a="weave" data-i="${i}">${t('weave')}</button>`}<button class="pill" data-a="delr" data-i="${i}">${t('del')}</button></div></div>`).join('')||`<p class="mu">${t('norel')}</p>`)+`<div class="grid"><div><label>${t('relName')}</label><input id="r1"></div><div><label>${t('relType')}</label><select id="r2">${Object.entries(t('types')).map(([k,v])=>`<option value="${k}">${v}</option>`).join('')}</select></div><div class="full"><label>${t('relNote')}</label><input id="r3"></div></div><div class="acts"><button class="pill w" data-a="addr">${t('add')}</button><button class="pill" data-a="aiName2">${t('aiName')}</button><button class="pill" data-a="aiTree">${t('aiTree')}</button></div>`;
+ if(T=='tree'){
+  const g={};c.rels.forEach(r=>{const k=r.type in GEN?GEN[r.type]:'x';(g[k]=g[k]||[]).push(r)});
+  g[0]=g[0]||[];
+  const nd=r=>`<div class="node">${esc(r.name)}<small>${t('types')[r.type]}</small></div>`;
+  const me=`<div class="node me">${esc(nm(c))}<small>${t('you')}</small></div>`;
+  if(!c.rels.length)return `<p class="mu">${t('treeEmpty')}</p>`;
+  return `<div class="tr">`+[-2,-1].filter(k=>g[k]).map(k=>`<div class="gen">${g[k].map(nd).join('')}</div>`).join('')+`<div class="gen">${me}${g[0].map(nd).join('')}</div>`+[1,2].filter(k=>g[k]).map(k=>`<div class="gen">${g[k].map(nd).join('')}</div>`).join('')+(g.x?`<div class="lab">${t('circle')}</div><div class="gen">${g.x.map(nd).join('')}</div>`:'')+`</div>`}
+ return `<div class="acts"><button class="pill w" data-a="genbio">${c.bio?t('regen'):t('gen')}</button></div><pre id="bio">${esc(c.bio||'')}</pre>`;
+}
+function edit(c){return `<button class="pill" data-a="back">${t('back')}</button><h1 style="font-size:clamp(24px,6vw,40px);margin:18px 0 0">${esc(nm(c)).toUpperCase()}</h1><div class="tabs">${['profile','work','rels','tree','bio'].map(k=>`<button class="${S.tab==k?'on':''}" data-a="tab" data-i="${k}">${t(k)}</button>`).join('')}</div>${tabBody(c)}`}
+function storyV(){const sel=S.sel||(S.sel={}),ms=S.ms||(S.ms={}),sf=S.sf||(S.sf={}),ix=S.lang=='tr'?0:1;
+const sec=k=>`<div class="lab" style="margin:28px 0 8px">${t(k)}</div>`,
+ch=k=>`<label style="margin-top:12px">${t(k)}</label><div>${ST[k].map((o,i)=>`<span class="chip ${(MULTI.includes(k)?(ms[k]||[]).includes(i):sel[k]===i)?'on':''}" data-a="pick" data-k="${k}" data-i="${i}">${o[ix]}</span>`).join('')}</div>`;
+return `<button class="pill" data-a="back">${t('back')}</button><h1 style="font-size:clamp(24px,6vw,40px);margin:18px 0 6px">${t('story').toUpperCase()}</h1><p class="mu">${t('rndNote')}</p>`
++sec('sChar')+`<div class="grid">${FL.map(([k,a])=>`<div class="${a?'full':''}"><label>${t(k)}</label>${a?`<textarea data-g="${k}">${esc(sf[k])}</textarea>`:`<input data-g="${k}" value="${esc(sf[k])}">`}</div>`).join('')}</div>`+ch('mt')
++sec('sRel')+ch('mr')+(S.chars.length?`<label style="margin-top:12px">${t('useChars')}</label><div>${S.chars.map(c=>`<span class="chip ${(S.pc||[]).includes(c.id)?'on':''}" data-a="togc" data-i="${c.id}">${esc(nm(c))}</span>`).join('')}</div>`:'')
++sec('sWorld')+['era','spot','genre','tone','conflict','theme'].map(ch).join('')
++sec('sStyle')+['slang','pov','ending','length'].map(ch).join('')
++`<div class="acts"><button class="pill w" data-a="genstory">${t('makeStory')}</button></div><pre id="st">${esc(S.story||'')}</pre>`}
+function render(){const c=cur();document.documentElement.lang=S.lang;document.querySelector('[data-a=lang]').textContent=S.lang=='tr'?'EN':'TR';$('#app').innerHTML=c?edit(c):S.view=='story'?storyV():home();save()}
+document.addEventListener('input',e=>{const g=e.target.dataset.g;if(g){(S.sf||(S.sf={}))[g]=e.target.value;save()}const f=e.target.dataset.f,c=cur();if(f&&c){c[f]=e.target.value;save()}});
+document.addEventListener('change',e=>{if(e.target.id=='pf'&&e.target.files[0])pic(e.target.files[0],d=>{cur().photo=d;render()})});
+document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b)return;const a=b.dataset.a,i=b.dataset.i,c=cur(),v=id=>$('#'+id).value.trim();
+ if(a=='lang'){S.lang=S.lang=='tr'?'en':'tr';render()}
+ else if(a=='newc'){const n={id:'c'+Date.now(),works:[],rels:[],bio:''};FL.forEach(([k])=>n[k]='');S.chars.push(n);S.cur=n.id;S.tab='profile';render()}
+ else if(a=='story'){S.view='story';render()}
+ else if(a=='pick'){const k=b.dataset.k;if(MULTI.includes(k)){const m=S.ms||(S.ms={}),l=m[k]||(m[k]=[]),j=l.indexOf(+i);j<0?l.push(+i):l.splice(j,1)}else{const sel=S.sel||(S.sel={});sel[k]=sel[k]===+i?undefined:+i}render()}
+ else if(a=='togc'){const p=S.pc||(S.pc=[]),j=p.indexOf(i);j<0?p.push(i):p.splice(j,1);render()}
+ else if(a=='genstory')run(b,async()=>{const o=$('#st'),sel=S.sel||{},ms=S.ms||{},sf=S.sf||{},pc=S.chars.filter(x=>(S.pc||[]).includes(x.id)),
+one=k=>D.en[k]+': '+(sel[k]!=null?ST[k][sel[k]][1]:'choose randomly and surprisingly'),
+pk=k=>(ms[k]||[]).map(i=>ST[k][i][1]).join(', '),
+prof=FL.map(([k])=>sf[k]?D.en[k]+': '+sf[k]:'').filter(Boolean).join('\n')||'(none given: invent the main character fully, including name, age, job and personality)',
+lg=sel.slang!=null?ST.slang[sel.slang][1]:LN();
+S.story=(await ai(`You are a creative fiction writer. Write an original, vivid story with a title and a clear beginning, middle and end.\nMain character details (follow strictly, invent whatever is missing):\n${prof}\nWanted personality traits: ${pk('mt')||'any'}\nRelationship dynamics: ${pk('mr')||'any'}\n`+(pc.length?`Also include these existing characters faithfully:\n${pc.map(x=>ctx(x)).join('\n---\n')}\n`:'')+['era','spot','genre','tone','conflict','theme','pov','ending','length'].map(one).join('\n')+`\nWrite the whole story in ${lg}. Plain text, no markdown. Respect the requested length.`,({text})=>{o.textContent=text})).trim();render()});
+ else if(a=='open'){S.cur=i;S.tab='profile';render()}
+ else if(a=='back'){S.cur=null;S.view='';render()}
+ else if(a=='tab'){S.tab=i;render()}
+ else if(a=='photo')$('#pf').click();
+ else if(a=='delc'){if(confirm(t('sure'))){S.chars=S.chars.filter(x=>x.id!=c.id);S.cur=null;render()}}
+ else if(a=='addw'){if(v('w1')){c.works.push({place:v('w1'),pos:v('w2'),years:v('w3')});render()}}
+ else if(a=='delw'){c.works.splice(i,1);render()}
+ else if(a=='addr'){if(v('r1')){c.rels.push({name:v('r1'),type:$('#r2').value,note:v('r3'),story:''});render()}}
+ else if(a=='delr'){c.rels.splice(i,1);render()}
+ else if(a=='aiName')run(b,async()=>{const x=await ai(`Invent one fitting full name for a fictional character.\n${ctx(c)}\nReply ONLY as: First|Last`);const p=x.trim().split('|');c.first=(p[0]||'').trim();c.last=(p[1]||'').trim();render()});
+ else if(a=='aiName2')run(b,async()=>{const x=await ai(`Invent one fitting full name for a fictional ${D.en.types[$('#r2').value]} of this character (match culture and family where relevant).\n${ctx(c)}\nReply ONLY with the full name.`);$('#r1').value=x.trim()});
+ else if(a=='weave')run(b,async()=>{const r=c.rels[i];r.story=(await ai(`You help a novelist. Main character:\n${ctx(c)}\n\nNew character: ${r.name}, relationship: ${D.en.types[r.type]}. ${r.note||''}\nWrite 2 short paragraphs on how this person entered the main character's life, their shared history and dynamic. Stay consistent with the data. Language: ${LN()}. Plain text only.`)).trim();render()});
+ else if(a=='aiTree')run(b,async()=>{const x=await ai(`Main character:\n${ctx(c)}\nSuggest 3 to 5 plausible new relatives not already listed. Reply ONLY with a JSON array: [{"name":"Full Name","type":"grandparent|parent|sibling|spouse|child|grandchild","note":"one short line in ${LN()}"}]`);const m=x.match(/\[[\s\S]*\]/);JSON.parse(m[0]).forEach(r=>{if(r.name&&r.type in GEN)c.rels.push({name:r.name,type:r.type,note:r.note||'',story:''})});S.tab='tree';render()});
+ else if(a=='genbio')run(b,async()=>{const o=$('#bio');c.bio=(await ai(`You are a character-development assistant for novelists. Write a long, detailed biography (about 800 words) of this fictional character with short section titles on their own lines: Appearance, Personality, Early life, Key events, Relationships, Work, Inner conflict, Future. Use all the data; invent coherent details for gaps without contradicting anything.\n\n${ctx(c)}\n\nLanguage: ${LN()}. Plain text, no markdown.`,({text})=>{o.textContent=text})).trim();render()});
+});
+render();
+</script></body></html>
